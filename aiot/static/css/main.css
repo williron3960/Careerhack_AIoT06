@@ -1,0 +1,73 @@
+.body-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper{
+    display : grid ;
+    grid-template-columns : repeat(15, 1fr) ;
+    grid-auto-rows: 345px;
+    column-gap: 5px;
+    row-gap: 5px;
+    background-color: dimgray;
+    
+}
+
+.out_info {
+    grid-area: 1/1/1/4;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flex-space {
+    flex: 1;
+}
+  
+.infoBlock {
+    background-color: #333;
+    flex: 17;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+.infoBlock .infoBlockTitle {
+    /* align-self: start; */
+    font-size: 17px;
+    color: #ACACAC;
+}
+.infoBlock .infoBlockContent {
+    font-size: 40px;
+    color: #cecece;
+    margin: auto;
+}
+
+.temp_chart{
+    grid-area: 2/1/3/6;
+}
+
+.humidity_chart{
+    grid-area: 2/6/3/11;
+}
+
+.co2_chart{
+    grid-area: 2/11/2/16;
+}
+
+.ac_1{
+    grid-area: 1/4/1/7;
+}
+
+.ac_2{
+    grid-area: 1/7/1/10;
+}
+
+.ac_3{
+    grid-area: 1/10/1/13;
+}
+
+.ac_4{
+    grid-area: 1/13/1/16;
+}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<link rel="stylesheet" type="text/css" href="static/css/searchbar.css">
+
+<div class="body-container" >
+    <form method = 'POST' action="">
+            <div class="search">
+                <input type="date" id="start_date"
+                name="start_date" value="2020-01-01"
+                min="2020-01-01" max="2021-01-31">
+                &nbsp; ~ &nbsp;
+                <input type="date" id="end_date"
+                name="end_date" value="2020-01-07"
+                min="2020-01-01" max="2021-01-31">
+                <button type="submit" class="searchButton" >search</button> 
+            </div>
+    </form>
+    {% if start_date %}
+        <div class='temp_chart' id = 'temp_dy_line_chart' > 
+            <script>
+                var chartDom = document.getElementById('temp_dy_line_chart');
+                var tempDyLineChart = echarts.init(chartDom, 'dark');
+                var option_temp;
+                var title_name = '溫度';
+            </script>
+            <!-- Get ENV temperature -->
+            <script type="text/javascript" src="{{url_for('static', filename='js/get_env_temp.js')}}" ></script>
+            <!-- Plot graph -->
+            <script type="text/javascript" src="{{url_for('static', filename='js/temp_dynamic_line_chart.js')}}" ></script>
+            <script>
+                var now_datetime = new Date(2020, 0, 1, 0, -1, 0 )
+                var dateString = ''
+                DefaultData();
+            </script>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

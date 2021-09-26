@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<body>    
+    <script>
+        var now_datetime = new Date(2020, 0, 1, 0, -1, 0 )
+        console.log('default datetime = ' + now_datetime)
+        var dateString = ''
+        const getDatetime = async() => {
+            setInterval(async() =>{
+                now_datetime = new Date(+now_datetime + (60 * 1000))
+                dateString =
+                now_datetime.getFullYear() + "/" +
+                    ("0" + (now_datetime.getMonth()+1)).slice(-2) + "/" +
+                    ("0" + now_datetime.getDate()).slice(-2) + "_" +
+                    ("0" + (now_datetime.getHours() ) ).slice(-2) + ":" +
+                    ("0" + now_datetime.getMinutes()).slice(-2) + ":" +
+                    ("0" + (now_datetime.getSeconds()) ).slice(-2);
+
+                console.log(dateString);
+            },5 * 1000);
+        }
+        getDatetime();
+    </script>
+    <div class="body-container">
+        <div class = wrapper>
+            <!-- 室外資訊 -->
+            <script>
+                // Round up
+                function roundUp(num, precision) {
+                    precision = Math.pow(10, precision)
+                    return Math.ceil(num * precision) / precision
+                    }
+
+                // Function to generate random number  
+                function randomNumber(min, max) {  
+                    return roundUp(Math.random() * (max - min) + min, 1); 
+                }  
+
+               
+            </script>
+
+            <div class='out_info'>
+                    <div class="infoBlock">
+                        <p class="infoBlockTitle">室外溫度</p>
+                        <p class="infoBlockContent" id='out_temp'>
+                            <script> 
+                            //Set innerHTML
+                            function setInnerHTML(id_name, min, max) {
+                                document.getElementById(id_name).innerHTML = randomNumber(min, max)
+                            }
+                                const set_out_temp = () => {setInterval(setInnerHTML('out_temp', 8, 40), 1000)};
+                                set_out_temp();
+                            </script>°C
+                        </p>
+                    </div>
+                    <div class="flex-space"></div>
+                    <div class="infoBlock">
+                        <p class="infoBlockTitle">室外濕度</p>
+                        <p class="infoBlockContent">36%</p>
+                    </div>
+                    <div class="flex-space"></div>
+                    <div class="infoBlock">
+                        <p class="infoBlockTitle">室外CO2濃度</p>
+                        <p class="infoBlockContent">528ppm</p>
+                    </div>
+            </div>
+
+            <!-- 溫度 -->
+            <div class='temp_chart' id = 'temp_dy_line_chart' > 
+                <script>
+                    var chartDom = document.getElementById('temp_dy_line_chart');
+                    var tempDyLineChart = echarts.init(chartDom, 'dark');
+                    var option_temp;
+                    var title_name = '溫度';
+                </script>
+                <!-- Get ENV temperature -->
+                <script type="text/javascript" src="{{url_for('static', filename='js/get_env_temp.js')}}" ></script>
+                <!-- Plot graph -->
+                <script type="text/javascript" src="{{url_for('static', filename='js/temp_dynamic_line_chart.js')}}" ></script>
+                <script>
+                    // DefaultData();
+                    // getDatetime();
+                    refreshTemp();
+                </script>
+            </div>
+
+            <!-- 濕度 -->
+            <div class="humidity_chart" id='hum_dy_line_chart' >
+                <script>
+                    var chartDom = document.getElementById('hum_dy_line_chart');
+                    var humDyLineChart = echarts.init(chartDom, 'dark');
+                    var option_hum; 
+                    var title_name = '濕度';
+                </script>
+                 <!-- Get ENV humidity -->
+                 <script type="text/javascript" src="{{url_for('static', filename='js/get_env_hum.js')}}" ></script>
+                 <!-- Plot graph -->
+                <script type="text/javascript" src="{{url_for('static', filename='js/hum_dynamic_line_chart.js')}}" ></script>
+                <script>
+                    refreshHumid();
+                </script>
+
+            </div>
+
+            <!-- co2濃度 -->
+            <div class='co2_chart' id = 'co2_dy_line_chart' >
+                <script>
+                    var chartDom = document.getElementById('co2_dy_line_chart');
+                    var CO2DyLineChart = echarts.init(chartDom, 'dark');
+                    var option_stack;
+                    var title_name = 'CO2濃度'
+                </script>
+                 <!-- Get ENV co2 -->
+                 <script type="text/javascript" src="{{url_for('static', filename='js/get_env_co2.js')}}" ></script>
+                 <!-- Plot graph -->
+                <script type="text/javascript" src="{{url_for('static', filename='js/co2_dynamic_line_chart.js')}}" ></script>
+                <script>
+                    refreshCO2();
+                </script>
+            </div>
+
+        <!-- 冷氣 -->
+            <div class = 'ac_1' id='guage1' >
+                <script>
+                    var chartDom = document.getElementById('guage1');
+                    var guageChart1 = echarts.init(chartDom, 'dark');
+                    var option_guage1;
+                    var title_name = 'AC1';
+                </script>
+                <script type="text/javascript" src="{{url_for('static', filename='js/get_AC_data.js')}}" ></script>
+                <script type="text/javascript" src="{{url_for('static', filename='js/guage.js')}}" ></script>
+                <script >
+                getACDefault();
+                refreshAC1();
+                </script>
+            </div> 
+
+            <div class = 'ac_2' id='guage2' >
+                <script>
+                    var chartDom = document.getElementById('guage2');
+                    var guageChart2 = echarts.init(chartDom, 'dark');
+                    var option_guage2;
+                    var title_name = 'AC2';
+                </script>
+                <!-- <script type="text/javascript" src="{{url_for('static', filename='js/get_AC_data.js')}}" ></script> -->
+                <!-- <script type="text/javascript" src="{{url_for('static', filename='js/guage.js')}}" ></script> -->
+                <script>refreshAC2()</script>
+            </div> 
+
+            <div class = 'ac_3' id='guage3' >
+                <script>
+                    var chartDom = document.getElementById('guage3');
+                    var guageChart3 = echarts.init(chartDom, 'dark');
+                    var option_guage3;
+                    var title_name = 'AC3';
+                </script>
+                <!-- <script type="text/javascript" src="{{url_for('static', filename='js/guage.js')}}" ></script> -->
+                <script>                                
+                   refreshAC3();
+                </script>
+            </div> 
+
+            <div class = 'ac_4' id='guage4' >
+                <script>
+                    var chartDom = document.getElementById('guage4');
+                    var guageChart4 = echarts.init(chartDom, 'dark');
+                    var option_guage4;
+                    var title_name = 'AC4';
+                </script>
+                <!-- <script type="text/javascript" src="{{url_for('static', filename='js/guage.js')}}" ></script> -->
+                <script>                                
+                   refreshAC4();
+                </script>
+            </div> 
+        </div>
+    </div>
+</body>
+
+{% endblock %}
